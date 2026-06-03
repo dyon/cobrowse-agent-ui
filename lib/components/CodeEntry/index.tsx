@@ -23,6 +23,7 @@ export interface CodeEntryProps {
   ref?: ForwardedRef<CodeEntryHandle>
   className?: string
   inputClassName?: string
+  labelClassName?: string
   focusOnRender?: boolean
   onCode?: (code: string) => Promise<boolean> | boolean
   label?: ReactNode | false
@@ -61,7 +62,7 @@ const moveFocusForArrowKey = (
   }
 }
 
-const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCode, label, children }: CodeEntryProps) => {
+const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRender = false, onCode, label, children }: CodeEntryProps) => {
   const { t } = useTranslation()
   const [validating, setValidating] = useState(false)
   const [code, setCode] = useState(EMTPY_STATE)
@@ -220,7 +221,7 @@ const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCo
     >
       {label !== false && (
         <legend
-          className={styles.legend}
+          className={clsx(styles.legend, labelClassName)}
           onClick={focusFirstEmptyInput}
         >
           <span>{label ?? t('Support code')}</span>
