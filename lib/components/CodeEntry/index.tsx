@@ -68,6 +68,7 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   const [validating, setValidating] = useState(false)
   const [code, setCode] = useState(EMTPY_STATE)
   const refs = useRef<Array<HTMLInputElement | null>>([])
+  const focusTargetRef = useRef<number | null>(null)
 
   useImperativeHandle(ref, () => ({
     clear () {
@@ -95,23 +96,26 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
 
       if (isValid) {
         setCode(EMTPY_STATE)
-
-        if (refs.current[0]) {
-          setTimeout(() => refs.current[0]?.focus(), 0)
-        }
+        focusTargetRef.current = 0
       } else {
-        setTimeout(() => refs.current[CODE_LENGTH - 1]?.focus(), 0)
+        focusTargetRef.current = CODE_LENGTH - 1
       }
-    } catch (e) {
-      if (refs.current[CODE_LENGTH - 1]) {
-        setTimeout(() => refs.current[CODE_LENGTH - 1]?.focus(), 0)
-      }
-
-      throw e
+    } catch {
+      focusTargetRef.current = CODE_LENGTH - 1
     } finally {
       setValidating(false)
     }
   }, [onCode])
+
+  // Restore focus once validation completes and the inputs are re-enabled
+  useEffect(() => {
+    if (validating || focusTargetRef.current === null) {
+      return
+    }
+
+    refs.current[focusTargetRef.current]?.focus()
+    focusTargetRef.current = null
+  }, [validating])
 
   // Run the tryComplete function when the code state changes
   useEffect(() => {
