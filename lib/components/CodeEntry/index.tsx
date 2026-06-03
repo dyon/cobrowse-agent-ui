@@ -8,7 +8,8 @@ import {
   type ReactNode,
   type ClipboardEvent,
   type ChangeEvent,
-  type KeyboardEvent
+  type KeyboardEvent,
+  type FocusEvent
 } from 'react'
 import clsx from 'clsx'
 import { useTranslation } from '@/i18n'
@@ -175,17 +176,12 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
     const digit = parseInt(target.getAttribute('data-digit') ?? '0', 10)
     const digits = value.match(/[0-9]/g) ?? []
 
-    if (digits.length === 0) {
-      setDigit(digit, '')
-
-      return
-    }
-
-    if (digits.length === 1) {
-      setDigit(digit, digits[0])
-      focusNextInput(refs.current, target)
-    }
+    setDigit(digit, digits[digits.length - 1] ?? '')
   }, [setDigit])
+
+  const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
+    event.currentTarget.select()
+  }, [])
 
   const handleKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
     const { key, currentTarget, metaKey, ctrlKey } = event
@@ -205,10 +201,10 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   }, [])
 
   const handleKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
-    const { currentTarget, repeat } = event
+    const { key, currentTarget, repeat } = event
     const { value } = currentTarget
 
-    if (!repeat && /[0-9]/.test(value)) {
+    if (!repeat && key.length === 1 && value !== '') {
       focusNextInput(refs.current, currentTarget)
     }
   }, [])
@@ -237,6 +233,7 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
             onChange={handleOnChange}
+            onFocus={handleFocus}
             onPaste={handlePaste}
             value={value}
             data-digit={index}
