@@ -69,6 +69,7 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   const [code, setCode] = useState(EMTPY_STATE)
   const refs = useRef<Array<HTMLInputElement | null>>([])
   const focusTargetRef = useRef<number | null>(null)
+  const advancedOnChange = useRef(false)
 
   useImperativeHandle(ref, () => ({
     clear () {
@@ -179,8 +180,14 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
     const { target, target: { value } } = event
     const digit = parseInt(target.getAttribute('data-digit') ?? '0', 10)
     const digits = value.match(/[0-9]/g) ?? []
+    const nextValue = digits[digits.length - 1] ?? ''
 
-    setDigit(digit, digits[digits.length - 1] ?? '')
+    setDigit(digit, nextValue)
+
+    if (nextValue !== '') {
+      focusNextInput(refs.current, target)
+      advancedOnChange.current = true
+    }
   }, [setDigit])
 
   const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
@@ -188,6 +195,7 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   }, [])
 
   const handleKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    advancedOnChange.current = false
     const { key, currentTarget, metaKey, ctrlKey } = event
 
     // On backspace on empty node go back to previous
@@ -206,9 +214,14 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
 
   const handleKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
     const { key, currentTarget, repeat } = event
-    const { value } = currentTarget
 
-    if (!repeat && key.length === 1 && value !== '') {
+    if (advancedOnChange.current) {
+      advancedOnChange.current = false
+
+      return
+    }
+
+    if (!repeat && key.length === 1 && currentTarget.value !== '') {
       focusNextInput(refs.current, currentTarget)
     }
   }, [])
