@@ -8,7 +8,8 @@ import {
   type ReactNode,
   type ClipboardEvent,
   type ChangeEvent,
-  type KeyboardEvent
+  type KeyboardEvent,
+  type FocusEvent
 } from 'react'
 import clsx from 'clsx'
 import { useTranslation } from '@/i18n'
@@ -23,6 +24,7 @@ export interface CodeEntryProps {
   ref?: ForwardedRef<CodeEntryHandle>
   className?: string
   inputClassName?: string
+  labelClassName?: string
   focusOnRender?: boolean
   onCode?: (code: string) => Promise<boolean> | boolean
   label?: ReactNode | false
@@ -61,11 +63,13 @@ const moveFocusForArrowKey = (
   }
 }
 
-const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCode, label, children }: CodeEntryProps) => {
+const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRender = false, onCode, label, children }: CodeEntryProps) => {
   const { t } = useTranslation()
   const [validating, setValidating] = useState(false)
   const [code, setCode] = useState(EMTPY_STATE)
   const refs = useRef<Array<HTMLInputElement | null>>([])
+  const focusTargetRef = useRef<number | null>(null)
+  const advancedOnChange = useRef(false)
 
   useImperativeHandle(ref, () => ({
     clear () {
@@ -93,23 +97,26 @@ const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCo
 
       if (isValid) {
         setCode(EMTPY_STATE)
-
-        if (refs.current[0]) {
-          setTimeout(() => refs.current[0]?.focus(), 0)
-        }
+        focusTargetRef.current = 0
       } else {
-        setTimeout(() => refs.current[CODE_LENGTH - 1]?.focus(), 0)
+        focusTargetRef.current = CODE_LENGTH - 1
       }
-    } catch (e) {
-      if (refs.current[CODE_LENGTH - 1]) {
-        setTimeout(() => refs.current[CODE_LENGTH - 1]?.focus(), 0)
-      }
-
-      throw e
+    } catch {
+      focusTargetRef.current = CODE_LENGTH - 1
     } finally {
       setValidating(false)
     }
   }, [onCode])
+
+  // Restore focus once validation completes and the inputs are re-enabled
+  useEffect(() => {
+    if (validating || focusTargetRef.current === null) {
+      return
+    }
+
+    refs.current[focusTargetRef.current]?.focus()
+    focusTargetRef.current = null
+  }, [validating])
 
   // Run the tryComplete function when the code state changes
   useEffect(() => {
@@ -173,20 +180,22 @@ const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCo
     const { target, target: { value } } = event
     const digit = parseInt(target.getAttribute('data-digit') ?? '0', 10)
     const digits = value.match(/[0-9]/g) ?? []
+    const nextValue = digits[digits.length - 1] ?? ''
 
-    if (digits.length === 0) {
-      setDigit(digit, '')
+    setDigit(digit, nextValue)
 
-      return
-    }
-
-    if (digits.length === 1) {
-      setDigit(digit, digits[0])
+    if (nextValue !== '') {
       focusNextInput(refs.current, target)
+      advancedOnChange.current = true
     }
   }, [setDigit])
 
+  const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
+    event.currentTarget.select()
+  }, [])
+
   const handleKeyDown = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
+    advancedOnChange.current = false
     const { key, currentTarget, metaKey, ctrlKey } = event
 
     // On backspace on empty node go back to previous
@@ -204,10 +213,15 @@ const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCo
   }, [])
 
   const handleKeyUp = useCallback((event: KeyboardEvent<HTMLInputElement>) => {
-    const { currentTarget, repeat } = event
-    const { value } = currentTarget
+    const { key, currentTarget, repeat } = event
 
-    if (!repeat && /[0-9]/.test(value)) {
+    if (advancedOnChange.current) {
+      advancedOnChange.current = false
+
+      return
+    }
+
+    if (!repeat && key.length === 1 && currentTarget.value !== '') {
       focusNextInput(refs.current, currentTarget)
     }
   }, [])
@@ -220,7 +234,7 @@ const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCo
     >
       {label !== false && (
         <legend
-          className={styles.legend}
+          className={clsx(styles.legend, labelClassName)}
           onClick={focusFirstEmptyInput}
         >
           <span>{label ?? t('Support code')}</span>
@@ -236,6 +250,7 @@ const CodeEntry = ({ ref, className, inputClassName, focusOnRender = false, onCo
             onKeyDown={handleKeyDown}
             onKeyUp={handleKeyUp}
             onChange={handleOnChange}
+            onFocus={handleFocus}
             onPaste={handlePaste}
             value={value}
             data-digit={index}
