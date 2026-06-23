@@ -22,7 +22,15 @@ export function useRemoteContext(target?: HTMLIFrameElement | null): CobrowseRem
     let attachedContext: CobrowseRemoteContext | null = null
 
     const attachContext = async () => {
-      attachedContext = await cobrowse.attachContext(target)
+      const context = await cobrowse.attachContext(target)
+
+      if (!context) {
+        setRemoteContext(null)
+
+        return
+      }
+
+      attachedContext = context
 
       if (cancelled) {
         attachedContext.destroy()
