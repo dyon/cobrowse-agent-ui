@@ -12,7 +12,10 @@ const DEFAULT_TAG = 'div' as const
 
 type PropsOf<T extends ElementType> = ComponentPropsWithoutRef<T>
 
-export type SessionData = Pick<FullSession, 'id' | 'state' | 'recorded' | 'activated' | 'ended' | 'getRecording' | 'recording'> & { device: DeviceInfo }
+export type SessionData = Pick<
+  FullSession,
+  'id' | 'state' | 'recorded' | 'activated' | 'ended' | 'getRecording' | 'recording'
+> & { device: DeviceInfo }
 
 interface BaseSessionProps<TSession extends SessionData = SessionData> {
   session: TSession
@@ -20,14 +23,19 @@ interface BaseSessionProps<TSession extends SessionData = SessionData> {
   children?: ReactNode
 }
 
-export type SessionProps<TSession extends SessionData = SessionData, TElement extends ElementType = typeof DEFAULT_TAG> =
-  BaseSessionProps<TSession> &
+export type SessionProps<
+  TSession extends SessionData = SessionData,
+  TElement extends ElementType = typeof DEFAULT_TAG,
+> = BaseSessionProps<TSession> &
   Omit<PropsOf<TElement>, 'onClick'> & {
     as?: TElement
     onClick?: (session: TSession) => void
   }
 
-const Session = <TSession extends SessionData = SessionData, TElement extends ElementType = typeof DEFAULT_TAG>({
+const Session = <
+  TSession extends SessionData = SessionData,
+  TElement extends ElementType = typeof DEFAULT_TAG,
+>({
   as,
   session,
   onClick,
@@ -38,11 +46,17 @@ const Session = <TSession extends SessionData = SessionData, TElement extends El
   const { t } = useTranslation()
   const deviceType = useDeviceType(session.device)
   const isClickable = typeof onClick === 'function'
-  const Tag = as ?? isClickable ? 'button' : DEFAULT_TAG
+  const Tag = (as ?? isClickable) ? 'button' : DEFAULT_TAG
 
   return (
     <Tag
-      onClick={isClickable ? () => { onClick(session) } : undefined}
+      onClick={
+        isClickable
+          ? () => {
+              onClick(session)
+            }
+          : undefined
+      }
       className={clsx(styles.root, isClickable && styles.clickable, className)}
       {...props}
     >
@@ -52,28 +66,25 @@ const Session = <TSession extends SessionData = SessionData, TElement extends El
           {deviceType}
         </span>
         <span className={styles.subdetails}>
-          {session.state === 'ended'
-            ? (
-              <span className={styles.activated}>
-                {t('{{date, dateRelative}}', {
-                  date: session.activated
-                })}
-                <span className={styles.duration}>
-                  <ClockIcon />
-                  <Stopwatch
-                    start={session.activated ? new Date(session.activated) : new Date()}
-                    end={session.ended ? new Date(session.ended) : undefined}
-                  />
-                </span>
+          {session.state === 'ended' ? (
+            <span className={styles.activated}>
+              {t('{{date, dateRelative}}', {
+                date: session.activated,
+              })}
+              <span className={styles.duration}>
+                <ClockIcon />
+                <Stopwatch
+                  start={session.activated ? new Date(session.activated) : new Date()}
+                  end={session.ended ? new Date(session.ended) : undefined}
+                />
               </span>
-            )
-            : (
-              <span className={styles.active}>
-                <span className={styles.activeIndicator}></span>
-                {t('Active')}
-              </span>
-            )
-          }
+            </span>
+          ) : (
+            <span className={styles.active}>
+              <span className={styles.activeIndicator}></span>
+              {t('Active')}
+            </span>
+          )}
         </span>
       </span>
       {children}

@@ -27,10 +27,13 @@ const Feedback = ({ reasons, placeholder, className, children }: RatingFeedbackP
   }
 
   const defaultReasons: RatingReasonOption[] = [
-    { value: 'hard_to_start_session', label: t('It was too hard to start the session with the user') },
+    {
+      value: 'hard_to_start_session',
+      label: t('It was too hard to start the session with the user'),
+    },
     { value: 'screen_too_slow', label: t('The screen was too slow to load or update') },
     { value: 'screen_broken', label: t('Parts of the screen did not load correctly') },
-    { value: 'tools_not_helpful', label: t('The tools were not helpful or too hard to use') }
+    { value: 'tools_not_helpful', label: t('The tools were not helpful or too hard to use') },
   ]
 
   return (

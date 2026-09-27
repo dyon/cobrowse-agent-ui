@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useCobrowse } from '@/components/CobrowseProvider'
 
-const isAbortError = (error: unknown): boolean => (
+const isAbortError = (error: unknown): boolean =>
   error instanceof Error && error.name === 'AbortError'
-)
 
 /**
  * Provides the account's trusted embedding domains.
@@ -31,7 +30,9 @@ const useTrustedEmbeddingOrigins = () => {
       setLoading(true)
 
       try {
-        const trusted = await cobrowse.origins.trusted({ request: { signal: abortController.signal } })
+        const trusted = await cobrowse.origins.trusted({
+          request: { signal: abortController.signal },
+        })
 
         setOrigins(trusted.origins)
       } catch (error) {
@@ -53,7 +54,7 @@ const useTrustedEmbeddingOrigins = () => {
   return {
     origins,
     loading,
-    error
+    error,
   }
 }
 

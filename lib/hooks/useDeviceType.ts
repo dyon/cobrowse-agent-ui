@@ -8,7 +8,7 @@ const PLATFORM_LABELS: Record<Exclude<DeviceInfo['platform'], 'web'>, string> = 
   ios: 'iOS',
   android: 'Android',
   windows: 'Windows',
-  macos: 'macOS'
+  macos: 'macOS',
 }
 
 const useDeviceType = ({ device, platform }: DeviceInfo) => {
@@ -19,7 +19,7 @@ const useDeviceType = ({ device, platform }: DeviceInfo) => {
 
     return t('{{browser}} on {{os}}', {
       browser: ua.browser.name,
-      os: ua.os.name
+      os: ua.os.name,
     })
   }
 

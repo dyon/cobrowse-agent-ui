@@ -19,7 +19,7 @@ const UserIcon = ({ user, className }: UserIconProps) => {
     return user.name
       .trim()
       .split(/\s+/)
-      .map(part => part.toUpperCase().charAt(0))
+      .map((part) => part.toUpperCase().charAt(0))
       .join('')
       .slice(0, 2)
   }
@@ -32,7 +32,7 @@ const UserIcon = ({ user, className }: UserIconProps) => {
       title={user.name}
       style={{
         backgroundImage: user.picture ? `url(${user.picture || ''})` : undefined,
-        backgroundColor: user.colour
+        backgroundColor: user.colour,
       }}
     >
       <span>{initials()}</span>

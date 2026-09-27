@@ -2,10 +2,7 @@ import type { ReactElement, ReactNode } from 'react'
 import type { Session } from 'cobrowse-agent-sdk'
 import type { FrameProps } from '@/components/Frame'
 
-type SessionEmbedFrameProps = Omit<
-  FrameProps,
-  'src' | 'onLoad' | 'onEnded' | 'onError'
->
+type SessionEmbedFrameProps = Omit<FrameProps, 'src' | 'onLoad' | 'onEnded' | 'onError'>
 
 export type SessionEmbedOverlayState = 'loading' | Session['state']
 

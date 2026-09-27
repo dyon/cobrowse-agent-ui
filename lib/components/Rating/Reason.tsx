@@ -15,11 +15,13 @@ const Reason = ({ value, label, className }: RatingReasonProps) => {
   return (
     <label className={clsx(styles.root, className)}>
       <input
-        type='checkbox'
+        type="checkbox"
         value={value}
         checked={feedback.includes(value)}
         className={styles.checkbox}
-        onChange={() => { toggleReason(value) }}
+        onChange={() => {
+          toggleReason(value)
+        }}
       />
       {label}
     </label>

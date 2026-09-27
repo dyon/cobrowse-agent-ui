@@ -10,7 +10,7 @@ const Loader = ({ children }: LoaderProps) => {
   const { t } = useTranslation()
 
   return (
-    <div role='status' aria-label={t('Loading...')} className={styles.root}>
+    <div role="status" aria-label={t('Loading...')} className={styles.root}>
       {children ?? <div className={styles.spinner} />}
     </div>
   )

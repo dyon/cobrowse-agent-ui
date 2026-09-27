@@ -15,7 +15,8 @@ export type QueryRequestOptions<TQuery extends QueryShape<TQuery> = QueryParams>
   request?: QueryRequestInit
 }
 
-const isAbortError = (error: unknown): boolean => error instanceof Error && error.name === 'AbortError'
+const isAbortError = (error: unknown): boolean =>
+  error instanceof Error && error.name === 'AbortError'
 
 export function useQuery<Args extends unknown[], TQuery extends QueryShape<TQuery>, Result>(
   fn: (...args: [...Args, options?: RequestOptions<TQuery>]) => Promise<Result>,
@@ -24,9 +25,19 @@ export function useQuery<Args extends unknown[], TQuery extends QueryShape<TQuer
 ) {
   // Each arg is a dependency so a change (e.g. a resource id) produces a new callback and triggers a refetch.
   // Call sites pass a fixed number of args, so the deps array length is stable across renders.
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- rest args can't be listed statically, the spread is intentional
-  const wrappedFn = useCallback(async (options?: RequestOptions<TQuery>) => await fn(...args, options), [fn, ...args])
-  const { data, isPending: isExecuting, isSuccess, isError: isAsyncError, executeAsync, reset } = useAsync(wrappedFn)
+  const wrappedFn = useCallback(
+    async (options?: RequestOptions<TQuery>) => await fn(...args, options),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- rest args can't be listed statically, the spread is intentional
+    [fn, ...args],
+  )
+  const {
+    data,
+    isPending: isExecuting,
+    isSuccess,
+    isError: isAsyncError,
+    executeAsync,
+    reset,
+  } = useAsync(wrappedFn)
 
   const controllerRef = useRef<AbortController | null>(null)
   const [error, setError] = useState<Error | null>(null)
@@ -61,8 +72,8 @@ export function useQuery<Args extends unknown[], TQuery extends QueryShape<TQuer
         ...options,
         request: {
           ...options?.request,
-          signal: controller.signal
-        }
+          signal: controller.signal,
+        },
       }
 
       try {
@@ -81,7 +92,7 @@ export function useQuery<Args extends unknown[], TQuery extends QueryShape<TQuer
         }
       }
     },
-    [executeAsync]
+    [executeAsync],
   )
 
   const cancel = useCallback(() => {
@@ -108,8 +119,8 @@ export function useQuery<Args extends unknown[], TQuery extends QueryShape<TQuer
       isRefetching: isPending && isSuccess,
       refetch,
       cancel,
-      isError: error !== null
+      isError: error !== null,
     }),
-    [data, error, refetch, cancel, isPending, isSuccess]
+    [data, error, refetch, cancel, isPending, isSuccess],
   )
 }

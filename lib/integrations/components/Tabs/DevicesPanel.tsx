@@ -12,13 +12,17 @@ export interface DevicesPanelProps<T extends DeviceData = DeviceData> extends Ba
   smartConnectButtonClassName?: string
 }
 
-const DevicesPanel = <T extends DeviceData = DeviceData>({ devices, onConnectClick, smartConnectButtonClassName, panelItemClassName, loader }: DevicesPanelProps<T>) => {
+const DevicesPanel = <T extends DeviceData = DeviceData>({
+  devices,
+  onConnectClick,
+  smartConnectButtonClassName,
+  panelItemClassName,
+  loader,
+}: DevicesPanelProps<T>) => {
   const { t } = useTranslation()
 
   if (devices === null) {
-    return (
-      <Loader>{loader}</Loader>
-    )
+    return <Loader>{loader}</Loader>
   }
 
   if (devices.length === 0) {
@@ -28,7 +32,11 @@ const DevicesPanel = <T extends DeviceData = DeviceData>({ devices, onConnectCli
   return (
     <>
       {devices.map((device) => (
-        <Device key={device.id} device={device} className={clsx(styles.panelItem, panelItemClassName)}>
+        <Device
+          key={device.id}
+          device={device}
+          className={clsx(styles.panelItem, panelItemClassName)}
+        >
           <SmartConnectButton
             device={device}
             className={smartConnectButtonClassName}

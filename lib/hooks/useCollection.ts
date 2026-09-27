@@ -6,7 +6,7 @@ import type { QueryShape, RequestOptions } from 'cobrowse-agent-sdk'
 export function useCollection<
   Args extends unknown[],
   TQuery extends QueryShape<TQuery>,
-  Entity extends ObservableEntity
+  Entity extends ObservableEntity,
 >(
   fn: (...args: [...Args, options?: RequestOptions<TQuery>]) => Promise<Entity[]>,
   options?: QueryOptions,
@@ -18,8 +18,8 @@ export function useCollection<
   return useMemo(
     () => ({
       ...query,
-      data
+      data,
     }),
-    [query, data]
+    [query, data],
   )
 }

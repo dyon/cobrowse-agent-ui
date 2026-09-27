@@ -21,7 +21,7 @@ export interface SessionEventHandlers {
  */
 const useSessionEvents = (
   remoteContext: RemoteContext | null,
-  { onLoaded, onUpdated, onActivated, onEnded }: SessionEventHandlers
+  { onLoaded, onUpdated, onActivated, onEnded }: SessionEventHandlers,
 ) => {
   const onLoadedCallback = useStableCallback(onLoaded)
   const onUpdatedCallback = useStableCallback(onUpdated)

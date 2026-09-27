@@ -20,10 +20,12 @@ export const useSessionUrl = ({
   agentTools,
   deviceControls,
   sessionDetails,
-  messages
+  messages,
 }: UseSessionUrlProps) => {
   const cobrowse = useCobrowse()
-  const { i18n: { language } } = useTranslation()
+  const {
+    i18n: { language },
+  } = useTranslation()
 
   return useMemo(() => {
     const paramEntries = Object.entries({
@@ -34,8 +36,8 @@ export const useSessionUrl = ({
       session_details: sessionDetails,
       messages,
       token_source: 'postMessage',
-      lng: language
-    }).flatMap(([name, value]) => value === undefined ? [] : [[name, value]])
+      lng: language,
+    }).flatMap(([name, value]) => (value === undefined ? [] : [[name, value]]))
 
     const query = new URLSearchParams(paramEntries)
 
@@ -49,6 +51,6 @@ export const useSessionUrl = ({
     deviceControls,
     sessionDetails,
     messages,
-    language
+    language,
   ])
 }

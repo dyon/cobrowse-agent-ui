@@ -4,7 +4,33 @@ import { initReactI18next } from 'react-i18next'
 import { formatDistanceToNow } from 'date-fns'
 import type { Locale } from 'date-fns'
 import {
-  enUS, ar, cs, da, de, es, et, fi, fr, hi, it, ja, ko, lt, ms, nl, pl, pt, ro, ru, sk, sl, sv, th, uk, vi, zhCN
+  enUS,
+  ar,
+  cs,
+  da,
+  de,
+  es,
+  et,
+  fi,
+  fr,
+  hi,
+  it,
+  ja,
+  ko,
+  lt,
+  ms,
+  nl,
+  pl,
+  pt,
+  ro,
+  ru,
+  sk,
+  sl,
+  sv,
+  th,
+  uk,
+  vi,
+  zhCN,
 } from 'date-fns/locale'
 import localeEnUS from '../locales/en-us/translation.json'
 import localeAr from '../locales/ar/translation.json'
@@ -65,7 +91,7 @@ const dateLocales: Record<string, Locale> = {
   th,
   uk,
   vi,
-  zh: zhCN
+  zh: zhCN,
 }
 
 const i18n: I18nInstance = createInstance({
@@ -85,105 +111,103 @@ const i18n: I18nInstance = createInstance({
       }
 
       return String(value)
-    }
+    },
   },
   detection: {
     caches: [],
-    order: []
+    order: [],
   },
   resources: {
     [englishUS]: {
-      translation: localeEnUS
+      translation: localeEnUS,
     },
     ar: {
-      translation: localeAr
+      translation: localeAr,
     },
     cs: {
-      translation: localeCs
+      translation: localeCs,
     },
     da: {
-      translation: localeDa
+      translation: localeDa,
     },
     de: {
-      translation: localeDe
+      translation: localeDe,
     },
     es: {
-      translation: localeEs
+      translation: localeEs,
     },
     et: {
-      translation: localeEt
+      translation: localeEt,
     },
     fi: {
-      translation: localeFi
+      translation: localeFi,
     },
     fr: {
-      translation: localeFr
+      translation: localeFr,
     },
     hi: {
-      translation: localeHi
+      translation: localeHi,
     },
     it: {
-      translation: localeIt
+      translation: localeIt,
     },
     ja: {
-      translation: localeJa
+      translation: localeJa,
     },
     kk: {
-      translation: localeKk
+      translation: localeKk,
     },
     ko: {
-      translation: localeKo
+      translation: localeKo,
     },
     lt: {
-      translation: localeLt
+      translation: localeLt,
     },
     mr: {
-      translation: localeMr
+      translation: localeMr,
     },
     ms: {
-      translation: localeMs
+      translation: localeMs,
     },
     nl: {
-      translation: localeNl
+      translation: localeNl,
     },
     pl: {
-      translation: localePl
+      translation: localePl,
     },
     pt: {
-      translation: localePt
+      translation: localePt,
     },
     ro: {
-      translation: localeRo
+      translation: localeRo,
     },
     ru: {
-      translation: localeRu
+      translation: localeRu,
     },
     sk: {
-      translation: localeSk
+      translation: localeSk,
     },
     sl: {
-      translation: localeSl
+      translation: localeSl,
     },
     sv: {
-      translation: localeSv
+      translation: localeSv,
     },
     th: {
-      translation: localeTh
+      translation: localeTh,
     },
     uk: {
-      translation: localeUk
+      translation: localeUk,
     },
     vi: {
-      translation: localeVi
+      translation: localeVi,
     },
     zh: {
-      translation: localeZh
-    }
-  }
+      translation: localeZh,
+    },
+  },
 })
 
-void i18n
-  .use(initReactI18next)
-  .init()
+void i18n.use(initReactI18next).init()
 
 export default i18n

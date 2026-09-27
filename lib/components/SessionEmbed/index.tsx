@@ -5,15 +5,22 @@ import type { SessionEmbedProps } from './types'
 import { useSessionUrl } from './useSessionUrl'
 import styles from './SessionEmbed.module.css'
 
-export type { SessionEmbedOverlay, SessionEmbedOverlayProps, SessionEmbedOverlayState, SessionEmbedProps } from './types'
+export type {
+  SessionEmbedOverlay,
+  SessionEmbedOverlayProps,
+  SessionEmbedOverlayState,
+  SessionEmbedProps,
+} from './types'
 
 type SessionEmbedComponent = typeof SessionEmbedBase & {
   Overlay: typeof Overlay
 }
 
-const SessionEventObserver = (handlers: Pick<SessionEmbedProps, 'onLoaded' | 'onUpdated' | 'onActivated' | 'onEnded'>) => {
- useSessionEvents(useRemoteContext(), handlers)
- return null
+const SessionEventObserver = (
+  handlers: Pick<SessionEmbedProps, 'onLoaded' | 'onUpdated' | 'onActivated' | 'onEnded'>,
+) => {
+  useSessionEvents(useRemoteContext(), handlers)
+  return null
 }
 
 const SessionEmbedBase = ({
@@ -40,17 +47,12 @@ const SessionEmbedBase = ({
     agentTools,
     deviceControls,
     sessionDetails,
-    messages
+    messages,
   })
 
   return (
     <div className={styles.root}>
-      <Frame
-        src={url}
-        className={className}
-        onError={onError}
-        {...props}
-      >
+      <Frame src={url} className={className} onError={onError} {...props}>
         <SessionEventObserver
           onLoaded={onLoaded}
           onUpdated={onUpdated}
@@ -64,6 +66,6 @@ const SessionEmbedBase = ({
 }
 
 const SessionEmbed: SessionEmbedComponent = Object.assign(SessionEmbedBase, {
-  Overlay
+  Overlay,
 })
 export default SessionEmbed
