@@ -23,6 +23,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run build
+
       - name: Publish
         run: |
           if [[ "$GITHUB_REF_NAME" == *-* ]]; then
