@@ -8,10 +8,60 @@ on:
         required: false
         default: ""
 
+# Inlined from cobrowseio/actions (version.yml v0.0.2). This repo is public and
+# cannot call reusable workflows or actions from that private repo.
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   version:
-    uses: cobrowseio/actions/.github/workflows/version.yml@730528b54790877767298571a0ea47bef97a4daa #v0.0.2
-    with:
-      args: ${{ inputs.args }}
-    secrets:
-      COBROWSE_BOT_KEY: ${{ secrets.COBROWSE_BOT_KEY }}
+    name: Run standard-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.COBROWSE_BOT_CLIENT_ID }}
+          private-key: ${{ secrets.COBROWSE_BOT_KEY }}
+          permission-contents: write
+
+      - name: Get GitHub App user ID
+        id: get-user-id
+        run: echo "user-id=$(gh api "/users/${{ steps.app-token.outputs.app-slug }}[bot]" --jq .id)" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Configure git
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config --global user.name '${{ steps.app-token.outputs.app-slug }}[bot]'
+          git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+${{ steps.app-token.outputs.app-slug }}[bot]@users.noreply.github.com'
+          gh auth setup-git
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - name: Run standard-version
+        env:
+          ARGS: ${{ inputs.args }}
+        # $ARGS is intentionally unquoted so multiple flags split into separate arguments.
+        run: npx -y standard-version@9.5.0 $ARGS
+
+      - name: Push changes and tags
+        run: git push --follow-tags
+
