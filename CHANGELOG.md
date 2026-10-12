@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0-rc.5](https://github.com/cobrowseio/cobrowse-agent-ui/compare/v1.7.0-rc.4...v1.7.0-rc.5) (2026-10-12)
+
+
+### Features
+
+* add sortable table component ([#78](https://github.com/cobrowseio/cobrowse-agent-ui/issues/78)) ([b369249](https://github.com/cobrowseio/cobrowse-agent-ui/commit/b3692492dd81982c079b4c2bcd6c10d9444443fb))
+* add support for accounts query hooks and the baseline generics ([#73](https://github.com/cobrowseio/cobrowse-agent-ui/issues/73)) ([9c88a17](https://github.com/cobrowseio/cobrowse-agent-ui/commit/9c88a17a77e3f465f171c413aecc7b478f6450c2))
+
+
+### Bug Fixes
+
+* fall back to the globe icon when the browser is unknown ([#81](https://github.com/cobrowseio/cobrowse-agent-ui/issues/81)) ([29f97a9](https://github.com/cobrowseio/cobrowse-agent-ui/commit/29f97a94bc58b03cc23a387fa56f1aad5de0b721))
+
 ## [1.7.0-rc.4](https://github.com/cobrowseio/cobrowse-agent-ui/compare/v1.7.0-rc.3...v1.7.0-rc.4) (2026-09-18)
 
 
