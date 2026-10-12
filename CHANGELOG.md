@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0-rc.6](https://github.com/cobrowseio/cobrowse-agent-ui/compare/v1.7.0-rc.5...v1.7.0-rc.6) (2026-10-12)
+
+
+### Bug Fixes
+
+* build before publishing in release workflow ([#87](https://github.com/cobrowseio/cobrowse-agent-ui/issues/87)) ([e3561ef](https://github.com/cobrowseio/cobrowse-agent-ui/commit/e3561ef648763792128f7135fdd264482de21400))
+
 ## [1.7.0-rc.5](https://github.com/cobrowseio/cobrowse-agent-ui/compare/v1.7.0-rc.4...v1.7.0-rc.5) (2026-10-12)
 
 
