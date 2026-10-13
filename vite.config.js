@@ -66,7 +66,7 @@ export default defineConfig({
       fileName: (format, entryName) =>
         format === 'es' ? `${entryName}.js` : `${entryName}.${format}.js`,
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: [
         'react/jsx-runtime',
         'date-fns/locale',
