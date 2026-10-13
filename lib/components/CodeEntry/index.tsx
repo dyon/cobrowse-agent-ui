@@ -262,11 +262,11 @@ const CodeEntry = ({
           <span>{label ?? t('Support code')}</span>
         </legend>
       )}
-      <div className={clsx(styles.digits, invalid && styles.invalid)} role="group">
+      <div className={clsx(styles.digits, invalid && styles.invalid)} role='group'>
         {code.map((value, index) => (
           <input
             key={index}
-            inputMode="numeric"
+            inputMode='numeric'
             className={clsx(styles.input, inputClassName)}
             disabled={validating}
             onKeyDown={handleKeyDown}

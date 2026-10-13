@@ -15,6 +15,7 @@ export default defineConfig({
   fmt: {
     semi: false,
     singleQuote: true,
+    jsxSingleQuote: true,
     ignorePatterns: ['CHANGELOG.md'],
   },
   lint: {

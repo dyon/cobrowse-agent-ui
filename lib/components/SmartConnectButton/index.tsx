@@ -31,7 +31,7 @@ const SmartConnectButton = <T extends DeviceData = DeviceData>({
 
   return (
     <Button
-      type="button"
+      type='button'
       disabled={isDisabled}
       className={clsx(device.connectable && styles.connectable, className)}
       onClick={handleClick}

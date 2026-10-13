@@ -316,10 +316,10 @@ const Section = ({
   subtitle?: string
   children: ReactNode
 }) => (
-  <section className="demo-section">
+  <section className='demo-section'>
     <h2>{title}</h2>
     {subtitle ? <p>{subtitle}</p> : null}
-    <div className="demo-grid">{children}</div>
+    <div className='demo-grid'>{children}</div>
   </section>
 )
 
@@ -351,17 +351,17 @@ const asSession = (sample: (typeof sessionSamples)[number]): SessionData => ({
 const EndSessionButton = () => {
   const ctx = useRemoteContext()
   return (
-    <button type="button" className="end-session-button" onClick={() => ctx?.endSession()}>
+    <button type='button' className='end-session-button' onClick={() => ctx?.endSession()}>
       End session
     </button>
   )
 }
 
 const SortIndicator = ({ isSorted, direction }: TableSortButtonState) => {
-  if (!isSorted) return <span className="sort-indicator">↕</span>
+  if (!isSorted) return <span className='sort-indicator'>↕</span>
 
   return (
-    <span className="sort-indicator sort-indicator-active">
+    <span className='sort-indicator sort-indicator-active'>
       {direction === DESCENDING ? '↓' : '↑'}
     </span>
   )
@@ -444,14 +444,14 @@ const TableSection = () => {
 
   return (
     <Section
-      title="Table"
-      subtitle="Sortable table with no styling passed: the appearance comes from the component, and the caller holds the sort state, ordering the rows with sortRows."
+      title='Table'
+      subtitle='Sortable table with no styling passed: the appearance comes from the component, and the caller holds the sort state, ordering the rows with sortRows.'
     >
-      <div className="panel">
+      <div className='panel'>
         <Table sort={sort} onSortChange={setSort}>
           <Table.Head>
             <Table.Row>
-              <Table.HeadCell column="name">
+              <Table.HeadCell column='name'>
                 <Table.SortButton>
                   {(state) => (
                     <>
@@ -461,7 +461,7 @@ const TableSection = () => {
                   )}
                 </Table.SortButton>
               </Table.HeadCell>
-              <Table.HeadCell column="location">
+              <Table.HeadCell column='location'>
                 <Table.SortButton>
                   {(state) => (
                     <>
@@ -471,7 +471,7 @@ const TableSection = () => {
                   )}
                 </Table.SortButton>
               </Table.HeadCell>
-              <Table.HeadCell column="status">
+              <Table.HeadCell column='status'>
                 <Table.SortButton firstDirection={DESCENDING}>
                   {(state) => (
                     <>
@@ -483,8 +483,8 @@ const TableSection = () => {
               </Table.HeadCell>
               {/* a column with no sort button, and so no `column` to name */}
               <Table.HeadCell>Platform</Table.HeadCell>
-              <Table.HeadCell column="last_active" className="numeric-column">
-                <Table.SortButton firstDirection={DESCENDING} className="numeric-sort-button">
+              <Table.HeadCell column='last_active' className='numeric-column'>
+                <Table.SortButton firstDirection={DESCENDING} className='numeric-sort-button'>
                   {(state) => (
                     <>
                       Last active
@@ -502,13 +502,13 @@ const TableSection = () => {
             ) : (
               sorted.map((device) => (
                 <Table.Row key={device.id}>
-                  <Table.Cell column="name">{device.name}</Table.Cell>
-                  <Table.Cell column="location">{device.location}</Table.Cell>
-                  <Table.Cell column="status">{device.online ? 'Online' : 'Offline'}</Table.Cell>
+                  <Table.Cell column='name'>{device.name}</Table.Cell>
+                  <Table.Cell column='location'>{device.location}</Table.Cell>
+                  <Table.Cell column='status'>{device.online ? 'Online' : 'Offline'}</Table.Cell>
                   <Table.Cell>
                     <PlatformIcon device={device.device} />
                   </Table.Cell>
-                  <Table.Cell column="last_active" className="numeric-column">
+                  <Table.Cell column='last_active' className='numeric-column'>
                     {new Date(device.last_active).toLocaleTimeString()}
                   </Table.Cell>
                 </Table.Row>
@@ -517,8 +517,8 @@ const TableSection = () => {
           </Table.Body>
         </Table>
       </div>
-      <div className="button-row">
-        <button type="button" onClick={() => setRows(rows.length > 0 ? [] : deviceSamples)}>
+      <div className='button-row'>
+        <button type='button' onClick={() => setRows(rows.length > 0 ? [] : deviceSamples)}>
           {rows.length > 0 ? 'Show empty state' : 'Restore rows'}
         </button>
       </div>
@@ -532,41 +532,41 @@ const SessionEmbedSection = () => {
 
   return (
     <Section
-      title="SessionEmbed"
-      subtitle="Embeds a session iframe with overlay states. The demo auto-transitions: loading → active, then use the button to end."
+      title='SessionEmbed'
+      subtitle='Embeds a session iframe with overlay states. The demo auto-transitions: loading → active, then use the button to end.'
     >
-      <div className="panel">
+      <div className='panel'>
         <h3>Overlays</h3>
-        <div className="session-embed-demo">
+        <div className='session-embed-demo'>
           <CobrowseProvider cobrowse={overlaysMock}>
-            <SessionEmbed id="demo-session.html">
-              <SessionEmbed.Overlay state="loading">
-                <div className="session-embed-overlay">
-                  <span className="overlay-icon">&#9203;</span>
-                  <span className="overlay-label">Connecting to session&hellip;</span>
+            <SessionEmbed id='demo-session.html'>
+              <SessionEmbed.Overlay state='loading'>
+                <div className='session-embed-overlay'>
+                  <span className='overlay-icon'>&#9203;</span>
+                  <span className='overlay-label'>Connecting to session&hellip;</span>
                 </div>
               </SessionEmbed.Overlay>
-              <SessionEmbed.Overlay state="active">
-                <div className="session-embed-overlay session-embed-overlay-active">
-                  <span className="overlay-badge">&#9989; Session active</span>
+              <SessionEmbed.Overlay state='active'>
+                <div className='session-embed-overlay session-embed-overlay-active'>
+                  <span className='overlay-badge'>&#9989; Session active</span>
                 </div>
               </SessionEmbed.Overlay>
-              <SessionEmbed.Overlay state="active">
-                <div className="session-embed-overlay session-embed-overlay-toolbar">
+              <SessionEmbed.Overlay state='active'>
+                <div className='session-embed-overlay session-embed-overlay-toolbar'>
                   <EndSessionButton />
                 </div>
               </SessionEmbed.Overlay>
-              <SessionEmbed.Overlay state="ended">
-                <div className="session-embed-overlay">
-                  <span className="overlay-icon">&#9724;</span>
-                  <span className="overlay-label">Session ended</span>
+              <SessionEmbed.Overlay state='ended'>
+                <div className='session-embed-overlay'>
+                  <span className='overlay-icon'>&#9724;</span>
+                  <span className='overlay-label'>Session ended</span>
                 </div>
               </SessionEmbed.Overlay>
             </SessionEmbed>
           </CobrowseProvider>
         </div>
-        <div className="button-row">
-          <button type="button" onClick={() => setOverlaysKey((k) => k + 1)}>
+        <div className='button-row'>
+          <button type='button' onClick={() => setOverlaysKey((k) => k + 1)}>
             Restart
           </button>
         </div>
@@ -657,13 +657,13 @@ export default function KitchenSink() {
 
   return (
     <>
-      <header className="page-header">
+      <header className='page-header'>
         <h1>Cobrowse Agent UI components</h1>
       </header>
 
-      <section className="demo-section">
-        <div className="control-row">
-          <div className="language-picker">
+      <section className='demo-section'>
+        <div className='control-row'>
+          <div className='language-picker'>
             <strong>Active language</strong>
             <select value={language} onChange={handleLanguageChange}>
               {languages.map((lng) => (
@@ -675,12 +675,12 @@ export default function KitchenSink() {
           </div>
 
           <button
-            type="button"
-            className="rtl-toggle"
+            type='button'
+            className='rtl-toggle'
             onClick={toggleDirection}
             aria-pressed={direction === 'rtl'}
           >
-            <span className="rtl-toggle-dot" aria-hidden="true" />
+            <span className='rtl-toggle-dot' aria-hidden='true' />
             {direction === 'rtl' ? 'RTL layout on' : 'RTL layout off'}
           </button>
         </div>
@@ -690,22 +690,22 @@ export default function KitchenSink() {
       </section>
 
       <Section
-        title="CodeEntry"
-        subtitle="Validates 6‑digit inputs, handles paste, and shows the validation animation."
+        title='CodeEntry'
+        subtitle='Validates 6‑digit inputs, handles paste, and shows the validation animation.'
       >
-        <div className="panel code-entry-area">
+        <div className='panel code-entry-area'>
           <CodeEntry onCode={handleCode} />
-          <div className="code-hint">{codeStatus}</div>
+          <div className='code-hint'>{codeStatus}</div>
         </div>
       </Section>
 
       <Section
-        title="PlatformIcon"
-        subtitle="Icons adjust automatically based on the shared device info object."
+        title='PlatformIcon'
+        subtitle='Icons adjust automatically based on the shared device info object.'
       >
-        <div className="platform-grid">
+        <div className='platform-grid'>
           {platformSamples.map(({ label, device }) => (
-            <div key={label} className="platform-card">
+            <div key={label} className='platform-card'>
               <span>{label}</span>
               <PlatformIcon device={device} />
             </div>
@@ -714,20 +714,20 @@ export default function KitchenSink() {
       </Section>
 
       <Section
-        title="Device + SmartConnectButton"
-        subtitle="Devices highlight their online status and accept arbitrary children, such as SmartConnectButton."
+        title='Device + SmartConnectButton'
+        subtitle='Devices highlight their online status and accept arbitrary children, such as SmartConnectButton.'
       >
-        <div className="device-list">
+        <div className='device-list'>
           {deviceSamples.map((sample) => {
             const device = asDevice(sample)
             return (
-              <div key={sample.id} className="device-card">
+              <div key={sample.id} className='device-card'>
                 <header>
                   <div>
-                    <h3 className="device-name">{sample.name}</h3>
-                    <div className="device-location">{sample.location}</div>
+                    <h3 className='device-name'>{sample.name}</h3>
+                    <div className='device-location'>{sample.location}</div>
                   </div>
-                  <span className="status-pill">{sample.online ? 'Online' : 'Offline'}</span>
+                  <span className='status-pill'>{sample.online ? 'Online' : 'Offline'}</span>
                 </header>
                 <Device device={device}>
                   <SmartConnectButton device={device} onClick={handleConnect}>
@@ -738,14 +738,14 @@ export default function KitchenSink() {
             )
           })}
         </div>
-        {lastConnection ? <div className="log">{lastConnection}</div> : null}
+        {lastConnection ? <div className='log'>{lastConnection}</div> : null}
       </Section>
 
       <Section
-        title="Standalone SmartConnectButton states"
-        subtitle="Demonstrates disabled vs. connectable styling outside of Device."
+        title='Standalone SmartConnectButton states'
+        subtitle='Demonstrates disabled vs. connectable styling outside of Device.'
       >
-        <div className="button-row">
+        <div className='button-row'>
           {deviceSamples.map((sample) => {
             const device = asDevice(sample)
             return (
@@ -762,10 +762,10 @@ export default function KitchenSink() {
       </Section>
 
       <Section
-        title="Session"
-        subtitle="Shows active vs. recorded/ended sessions with Stopwatch durations."
+        title='Session'
+        subtitle='Shows active vs. recorded/ended sessions with Stopwatch durations.'
       >
-        <div className="sessions">
+        <div className='sessions'>
           {sessionSamples.map((sample) => {
             const session = asSession(sample)
             return (
@@ -773,23 +773,23 @@ export default function KitchenSink() {
                 key={sample.id}
                 as={sample.recorded ? 'button' : 'div'}
                 session={session}
-                className="panel"
+                className='panel'
                 onClick={sample.recorded ? () => handleRecording(session) : undefined}
               />
             )
           })}
         </div>
-        {recordingInfo ? <div className="log">{recordingInfo}</div> : null}
+        {recordingInfo ? <div className='log'>{recordingInfo}</div> : null}
       </Section>
 
-      <Section title="UserIcon" subtitle="Initials fallback, custom colours, and pictures.">
-        <div className="user-grid">
+      <Section title='UserIcon' subtitle='Initials fallback, custom colours, and pictures.'>
+        <div className='user-grid'>
           {users.map((user) => (
-            <div key={user.id} className="user-card">
+            <div key={user.id} className='user-card'>
               <UserIcon user={user} />
-              <div className="user-label">
-                <div className="user-name">{user.name || 'Unnamed'}</div>
-                <div className="user-meta">{user.picture ? 'Picture' : 'Initials'}</div>
+              <div className='user-label'>
+                <div className='user-name'>{user.name || 'Unnamed'}</div>
+                <div className='user-meta'>{user.picture ? 'Picture' : 'Initials'}</div>
               </div>
             </div>
           ))}
@@ -797,19 +797,19 @@ export default function KitchenSink() {
       </Section>
 
       <Section
-        title="ConnectDevice"
-        subtitle="Composable connection flow with status messages, loader, and cancel button."
+        title='ConnectDevice'
+        subtitle='Composable connection flow with status messages, loader, and cancel button.'
       >
-        <div className="panel">
+        <div className='panel'>
           <h3>Success flow</h3>
           {connectSuccessConnected ? (
-            <div className="code-hint">Session connected successfully.</div>
+            <div className='code-hint'>Session connected successfully.</div>
           ) : connectSuccessKey > 0 ? (
             <CobrowseProvider cobrowse={MOCK_COBROWSE_SUCCESS}>
               <ConnectDevice
                 key={connectSuccessKey}
-                className="connect-device-demo"
-                deviceId="demo-1"
+                className='connect-device-demo'
+                deviceId='demo-1'
                 maxPushAttempts={5}
                 pushRetryMs={3000}
                 onConnectAttempt={(attempt) => handleConnectEvent(`[success] Attempt ${attempt}`)}
@@ -834,19 +834,19 @@ export default function KitchenSink() {
               </ConnectDevice>
             </CobrowseProvider>
           ) : (
-            <button type="button" onClick={() => setConnectSuccessKey((k) => k + 1)}>
+            <button type='button' onClick={() => setConnectSuccessKey((k) => k + 1)}>
               Start
             </button>
           )}
         </div>
-        <div className="panel">
+        <div className='panel'>
           <h3>Timeout flow</h3>
           {connectTimeoutKey > 0 ? (
             <CobrowseProvider cobrowse={MOCK_COBROWSE_TIMEOUT}>
               <ConnectDevice
                 key={connectTimeoutKey}
-                className="connect-device-demo"
-                deviceId="demo-2"
+                className='connect-device-demo'
+                deviceId='demo-2'
                 maxPushAttempts={3}
                 pushRetryMs={2000}
                 onConnectAttempt={(attempt) => handleConnectEvent(`[timeout] Attempt ${attempt}`)}
@@ -868,13 +868,13 @@ export default function KitchenSink() {
               </ConnectDevice>
             </CobrowseProvider>
           ) : (
-            <button type="button" onClick={() => setConnectTimeoutKey((k) => k + 1)}>
+            <button type='button' onClick={() => setConnectTimeoutKey((k) => k + 1)}>
               Start
             </button>
           )}
         </div>
         {connectLog.length > 0 && (
-          <div className="log">
+          <div className='log'>
             {connectLog.slice(-8).map((entry, i) => (
               <div key={i}>{entry}</div>
             ))}
@@ -883,20 +883,20 @@ export default function KitchenSink() {
       </Section>
 
       <Section
-        title="SessionRating"
-        subtitle="Pre-composed rating. Star rating with optional low-score feedback: 4–5 stars auto-completes; 1–3 reveals reasons and a free-text field."
+        title='SessionRating'
+        subtitle='Pre-composed rating. Star rating with optional low-score feedback: 4–5 stars auto-completes; 1–3 reveals reasons and a free-text field.'
       >
-        <div className="panel">
+        <div className='panel'>
           <SessionRating
             key={ratingKey}
             onComplete={(result) => setRatingLog(JSON.stringify(result))}
             showThankYou
           />
         </div>
-        {ratingLog ? <div className="log">{ratingLog}</div> : null}
-        <div className="button-row">
+        {ratingLog ? <div className='log'>{ratingLog}</div> : null}
+        <div className='button-row'>
           <button
-            type="button"
+            type='button'
             onClick={() => {
               setRatingLog('')
               setRatingKey((k) => k + 1)
@@ -908,30 +908,30 @@ export default function KitchenSink() {
       </Section>
 
       <Section
-        title="Rating (composable)"
-        subtitle="The same building blocks composed by hand: Rating.Stars, Rating.Feedback, Rating.Submit and Rating.ThankYou. Here a custom prompt and a shorter reason list."
+        title='Rating (composable)'
+        subtitle='The same building blocks composed by hand: Rating.Stars, Rating.Feedback, Rating.Submit and Rating.ThankYou. Here a custom prompt and a shorter reason list.'
       >
-        <div className="panel">
+        <div className='panel'>
           <Rating
             key={composedRatingKey}
             onComplete={(result) => setComposedRatingLog(JSON.stringify(result))}
           >
-            <Rating.Stars label="How did we do?" />
+            <Rating.Stars label='How did we do?' />
             <Rating.Feedback
               reasons={[
                 { value: 'too_slow', label: 'It was too slow' },
                 { value: 'confusing', label: 'It was confusing' },
               ]}
-              placeholder="Tell us more (optional)"
+              placeholder='Tell us more (optional)'
             />
             <Rating.Submit>Send feedback</Rating.Submit>
             <Rating.ThankYou>Thanks — we appreciate it!</Rating.ThankYou>
           </Rating>
         </div>
-        {composedRatingLog ? <div className="log">{composedRatingLog}</div> : null}
-        <div className="button-row">
+        {composedRatingLog ? <div className='log'>{composedRatingLog}</div> : null}
+        <div className='button-row'>
           <button
-            type="button"
+            type='button'
             onClick={() => {
               setComposedRatingLog('')
               setComposedRatingKey((k) => k + 1)
@@ -947,10 +947,10 @@ export default function KitchenSink() {
       <SessionEmbedSection />
 
       <Section
-        title="Tabs"
-        subtitle="Tab navigation using Headless UI with Devices and Sessions panels. Supports custom styling via className props."
+        title='Tabs'
+        subtitle='Tab navigation using Headless UI with Devices and Sessions panels. Supports custom styling via className props.'
       >
-        <div className="panel">
+        <div className='panel'>
           <Tabs
             devices={tabsDevices}
             sessions={tabsSessions}
@@ -959,47 +959,47 @@ export default function KitchenSink() {
             onRefreshClick={handleTabsRefresh}
           />
         </div>
-        <div className="panel">
+        <div className='panel'>
           <Tabs
             devices={deviceSamples.map(asDevice)}
             sessions={sessionSamples.map(asSession)}
             onConnectClick={(device) => alert(`Connect to device "${device.id}"`)}
             onSessionClick={(session) => alert(`Session clicked "${session.id}"`)}
-            smartConnectButtonClassName="custom-connect-button"
+            smartConnectButtonClassName='custom-connect-button'
           />
         </div>
-        <div className="panel">
+        <div className='panel'>
           <Tabs
             devices={null}
             sessions={null}
-            loader={<div className="custom-loader">Loading data...</div>}
+            loader={<div className='custom-loader'>Loading data...</div>}
           />
         </div>
-        <div className="panel">
+        <div className='panel'>
           <Tabs
             devices={deviceSamples.map(asDevice)}
             sessions={sessionSamples.map(asSession)}
             onConnectClick={(device) => alert(`Connect to device "${device.id}"`)}
             onSessionClick={(session) => alert(`Session clicked "${session.id}"`)}
             onRefreshClick={handleTabsRefresh}
-            tabClassName="custom-tab"
-            tabHoverClassName="custom-tab-hover"
-            tabActiveClassName="custom-tab-active"
-            refreshButtonClassName="custom-refresh-button"
+            tabClassName='custom-tab'
+            tabHoverClassName='custom-tab-hover'
+            tabActiveClassName='custom-tab-active'
+            refreshButtonClassName='custom-refresh-button'
           />
         </div>
-        <div className="panel">
+        <div className='panel'>
           <Tabs
             devices={deviceSamples.map(asDevice)}
             sessions={sessionSamples.map(asSession)}
             onConnectClick={(device) => alert(`Connect to device "${device.id}"`)}
             onSessionClick={(session) => alert(`Session clicked "${session.id}"`)}
             onRefreshClick={handleTabsRefresh}
-            headerClassName="custom-header"
-            tabListClassName="custom-tab-list"
-            tabClassName="custom-tab-pill"
-            tabActiveClassName="custom-tab-pill-active"
-            refreshButtonClassName="custom-refresh-icon"
+            headerClassName='custom-header'
+            tabListClassName='custom-tab-list'
+            tabClassName='custom-tab-pill'
+            tabActiveClassName='custom-tab-pill-active'
+            refreshButtonClassName='custom-refresh-icon'
             refresh={<span>↻</span>}
           />
         </div>

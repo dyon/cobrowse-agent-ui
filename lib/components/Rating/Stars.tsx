@@ -37,7 +37,7 @@ const Stars = ({ label, count = 5, className }: RatingStarsProps) => {
       )}
       <div
         className={styles.stars}
-        role="radiogroup"
+        role='radiogroup'
         aria-labelledby={prompt ? promptId : undefined}
         aria-label={prompt ? undefined : t('Rate your experience')}
       >
@@ -50,7 +50,7 @@ const Stars = ({ label, count = 5, className }: RatingStarsProps) => {
             }}
           >
             <input
-              type="radio"
+              type='radio'
               name={groupName}
               value={score}
               checked={rating === score}

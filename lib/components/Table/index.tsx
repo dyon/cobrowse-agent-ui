@@ -108,7 +108,7 @@ const HeadCell = ({ column, className, ...props }: TableHeadCellProps) => {
   return (
     <ColumnContext.Provider value={column}>
       <th
-        scope="col"
+        scope='col'
         aria-sort={direction}
         data-sorted={direction ? true : undefined}
         className={clsx(styles.headCell, className)}

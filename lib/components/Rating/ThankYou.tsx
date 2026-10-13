@@ -18,7 +18,7 @@ const ThankYou = ({ className, children }: RatingThankYouProps) => {
   }
 
   return (
-    <div role="status" className={clsx(styles.root, className)}>
+    <div role='status' className={clsx(styles.root, className)}>
       {children ?? t('Thank you for your feedback.')}
     </div>
   )
