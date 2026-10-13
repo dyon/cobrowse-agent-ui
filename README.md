@@ -26,8 +26,15 @@ checking.
    vp install
    ```
 
-   This runs the `prepare` script, which builds the library and runs `vp config` to install the Git hooks in
-   `.vite-hooks`. The pre-commit hook runs `vp check --fix` on staged files.
+3. Install the Git hooks:
+
+   ```bash
+   vp config
+   ```
+
+   The project's `.npmrc` sets `ignore-scripts=true`, so installing dependencies doesn't run the `prepare` script and
+   the hooks need installing once per clone. `vp config` installs them in `.vite-hooks`. The pre-commit hook runs
+   `vp check --fix` on staged files.
 
 If Node.js or npm behave unexpectedly, run `vp env doctor`.
 
