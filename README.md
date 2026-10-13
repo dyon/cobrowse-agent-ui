@@ -38,7 +38,7 @@ If Node.js or npm behave unexpectedly, run `vp env doctor`.
 | `vp dev`      | Start the dev server with the kitchen sink app from `src/`   |
 | `vp build`    | Build the library into `dist/`                               |
 | `vp check`    | Lint and type check (formatting is disabled for now)         |
-| `vp run lint` | Lint, plus i18n lint via `i18next-cli`. This is what CI runs |
+| `vp run lint` | Lint (warnings fail), plus `i18next-cli` lint. CI runs this. |
 | `vp run i18n` | Extract translation keys into the locale files               |
 
 **Note:** `vp <name>` runs a built-in Vite+ command, while `vp run <name>` runs a `package.json` script. The two can do

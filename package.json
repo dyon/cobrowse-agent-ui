@@ -9,7 +9,7 @@
     "prepare": "vp config",
     "i18n": "i18next-cli extract",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "vp lint . && i18next-cli lint --quiet"
+    "lint": "vp lint --deny-warnings . && i18next-cli lint --quiet"
   },
   "main": "./dist/cobrowse-agent-ui.js",
   "module": "./dist/cobrowse-agent-ui.js",
