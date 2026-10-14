@@ -92,4 +92,4 @@ To add a new locale follow these steps:
 - Add a new entry to `dateLocales` inside `lib/i18n/instance.ts`.
 
 **Note:** ensure the locale code matches the ones provided by the
-[date-fns library](https://github.com/date-fns/date-fns/tree/main/src/locale) as these are used to localize dates as well.
+[date-fns library](https://github.com/date-fns/date-fns/tree/main/pkgs/core/src/locale) as these are used to localize dates as well.
