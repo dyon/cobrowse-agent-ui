@@ -16,7 +16,9 @@
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .checkbox:hover {

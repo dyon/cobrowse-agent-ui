@@ -5,13 +5,22 @@ import styles from './SmartConnectButton.module.css'
 import type { DeviceData } from '@/components/Device'
 import { useTranslation } from '@/i18n'
 
-export interface SmartConnectButtonProps<T extends DeviceData = DeviceData> extends Omit<ComponentPropsWithoutRef<'button'>, 'onClick'> {
+export interface SmartConnectButtonProps<T extends DeviceData = DeviceData> extends Omit<
+  ComponentPropsWithoutRef<'button'>,
+  'onClick'
+> {
   device: T
   onClick?: (device: T) => void
   children?: ReactNode
 }
 
-const SmartConnectButton = <T extends DeviceData = DeviceData>({ device, onClick: onClickCallback, className, children, ...props }: SmartConnectButtonProps<T>) => {
+const SmartConnectButton = <T extends DeviceData = DeviceData>({
+  device,
+  onClick: onClickCallback,
+  className,
+  children,
+  ...props
+}: SmartConnectButtonProps<T>) => {
   const { t } = useTranslation()
 
   const handleClick = () => {
@@ -24,10 +33,7 @@ const SmartConnectButton = <T extends DeviceData = DeviceData>({ device, onClick
     <Button
       type='button'
       disabled={isDisabled}
-      className={clsx(
-        device.connectable && styles.connectable,
-        className
-      )}
+      className={clsx(device.connectable && styles.connectable, className)}
       onClick={handleClick}
       {...props}
     >

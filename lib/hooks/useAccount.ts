@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { useCobrowse } from '@/components/CobrowseProvider'
 import type { Account, AccountFeature } from 'cobrowse-agent-sdk'
 
-const isAbortError = (error: unknown): boolean => error instanceof Error && error.name === 'AbortError'
+const isAbortError = (error: unknown): boolean =>
+  error instanceof Error && error.name === 'AbortError'
 
 /**
  * Provides access to the current account and its enabled features.
@@ -28,7 +29,7 @@ const useAccount = () => {
 
       try {
         const accounts = await cobrowse.accounts.list({
-          request: { signal: abortController.signal }
+          request: { signal: abortController.signal },
         })
 
         // JWTs are scoped to a single account.
@@ -60,14 +61,14 @@ const useAccount = () => {
 
       return account.features[feature]
     },
-    [account]
+    [account],
   )
 
   return {
     hasFeature,
     account,
     loading,
-    error
+    error,
   }
 }
 

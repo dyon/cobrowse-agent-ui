@@ -12,13 +12,17 @@ export interface SessionsPanelProps<T extends SessionData = SessionData> extends
   sessionButtonClassName?: string
 }
 
-const SessionsPanel = <T extends SessionData = SessionData>({ sessions, onSessionClick, sessionButtonClassName, panelItemClassName, loader }: SessionsPanelProps<T>) => {
+const SessionsPanel = <T extends SessionData = SessionData>({
+  sessions,
+  onSessionClick,
+  sessionButtonClassName,
+  panelItemClassName,
+  loader,
+}: SessionsPanelProps<T>) => {
   const { t } = useTranslation()
 
   if (sessions === null) {
-    return (
-      <Loader>{loader}</Loader>
-    )
+    return <Loader>{loader}</Loader>
   }
 
   if (sessions.length === 0) {
@@ -28,8 +32,16 @@ const SessionsPanel = <T extends SessionData = SessionData>({ sessions, onSessio
   return (
     <>
       {sessions.map((session, index) => (
-        <Session key={index} session={session} className={clsx(styles.panelItem, panelItemClassName)}>
-          <SessionAction session={session} onClick={() => onSessionClick?.(session)} className={sessionButtonClassName} />
+        <Session
+          key={index}
+          session={session}
+          className={clsx(styles.panelItem, panelItemClassName)}
+        >
+          <SessionAction
+            session={session}
+            onClick={() => onSessionClick?.(session)}
+            className={sessionButtonClassName}
+          />
         </Session>
       ))}
     </>

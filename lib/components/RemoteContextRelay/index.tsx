@@ -42,7 +42,10 @@ const RemoteContextRelay = (props: RemoteContextRelayProps) => {
   useEffect(() => {
     if (error && !trustedOrigins) {
       // oxlint-disable-next-line no-console -- without this the relay silently never starts; there is no UI to surface the misconfiguration
-      console.warn('RemoteContextRelay: failed to load the account trusted embedding domains, nothing will be relayed', error)
+      console.warn(
+        'RemoteContextRelay: failed to load the account trusted embedding domains, nothing will be relayed',
+        error,
+      )
     }
   }, [error, trustedOrigins])
 

@@ -6,12 +6,12 @@ export interface ObservableEntity {
   id?: string
   on: <Event extends keyof RESTResourceEventMap>(
     event: Event,
-    listener: (...args: RESTResourceEventMap[Event]) => void
+    listener: (...args: RESTResourceEventMap[Event]) => void,
   ) => unknown
 
   off: <Event extends keyof RESTResourceEventMap>(
     event: Event,
-    listener: (...args: RESTResourceEventMap[Event]) => void
+    listener: (...args: RESTResourceEventMap[Event]) => void,
   ) => unknown
 }
 
@@ -19,7 +19,7 @@ export interface ObservableEntity {
 // Methods are bound by the SDK, so they keep their context and identity without any help here.
 export function createEntityProxy<Entity extends object>(entity: Entity): Entity {
   return new Proxy(entity, {
-    get: (target, property) => Reflect.get(target, property, target)
+    get: (target, property) => Reflect.get(target, property, target),
   })
 }
 
@@ -33,7 +33,7 @@ function currentProxyOf<Entity extends object>(entity: Entity): Entity {
 }
 
 export function useObservableEntities<Entity extends ObservableEntity>(
-  entities: readonly Entity[] | null
+  entities: readonly Entity[] | null,
 ): Entity[] | null {
   const [version, bump] = useReducer((version: number) => version + 1, 0)
 
@@ -68,13 +68,14 @@ export function useObservableEntities<Entity extends ObservableEntity>(
         .filter((entity) => entity.id !== undefined) ?? null,
     // version isn't read, it's what invalidates the memo when an entity is updated
     // eslint-disable-next-line react-hooks/exhaustive-deps -- see above
-    [entities, version]
+    [entities, version],
   )
 }
 
-export function useObservableEntity<Entity extends ObservableEntity>(entity: Entity | null): Entity | null {
+export function useObservableEntity<Entity extends ObservableEntity>(
+  entity: Entity | null,
+): Entity | null {
   const entities = useMemo(() => (entity === null ? null : [entity]), [entity])
 
   return useObservableEntities(entities)?.[0] ?? null
 }
-

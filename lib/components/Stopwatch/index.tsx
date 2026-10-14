@@ -16,7 +16,12 @@ const Stopwatch = ({ start: startProp, end: endProp, style, className }: Stopwat
 
   return (
     <span style={style} className={className}>
-      {duration.hours && duration.hours > 0 ? <span>{duration.hours}<span>:</span></span> : null}
+      {duration.hours && duration.hours > 0 ? (
+        <span>
+          {duration.hours}
+          <span>:</span>
+        </span>
+      ) : null}
       <span>{format(new Date(ms), 'mm:ss')}</span>
     </span>
   )

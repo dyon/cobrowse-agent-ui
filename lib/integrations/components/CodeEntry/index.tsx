@@ -12,7 +12,14 @@ const CodeEntry = ({ helpText, className, ...props }: CodeEntryProps) => {
 
   return (
     <div className={clsx(styles.root, className)}>
-      <BaseCodeEntry label={<Trans><span className={styles.supportLabel}>Support </span>Code</Trans>} {...props} />
+      <BaseCodeEntry
+        label={
+          <Trans>
+            <span className={styles.supportLabel}>Support </span>Code
+          </Trans>
+        }
+        {...props}
+      />
       <p>{helpText ?? t('Enter a support code, or connect to a device from the list below.')}</p>
     </div>
   )

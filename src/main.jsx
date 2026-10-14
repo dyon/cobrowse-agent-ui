@@ -9,5 +9,5 @@ root.render(
     <main>
       <KitchenSink />
     </main>
-  </React.StrictMode>
+  </React.StrictMode>,
 )

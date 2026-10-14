@@ -19,7 +19,9 @@ const Reason = ({ value, label, className }: RatingReasonProps) => {
         value={value}
         checked={feedback.includes(value)}
         className={styles.checkbox}
-        onChange={() => { toggleReason(value) }}
+        onChange={() => {
+          toggleReason(value)
+        }}
       />
       {label}
     </label>

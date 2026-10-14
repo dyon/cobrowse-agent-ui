@@ -8,7 +8,7 @@ export interface ExternalLinkProps {
 }
 
 const ExternalLink = ({ href, children }: ExternalLinkProps) => (
-  <a className={styles.root} href={href} target="_blank" rel="noopener noreferrer">
+  <a className={styles.root} href={href} target='_blank' rel='noopener noreferrer'>
     {children}
     <IconExternalLink />
   </a>

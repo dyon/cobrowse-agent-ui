@@ -10,8 +10,7 @@ interface BaseButtonProps {
   className?: string
 }
 
-export type ButtonProps<TElement extends ElementType = typeof DEFAULT_TAG> =
-  BaseButtonProps &
+export type ButtonProps<TElement extends ElementType = typeof DEFAULT_TAG> = BaseButtonProps &
   PropsOf<TElement> & {
     as?: TElement
   }

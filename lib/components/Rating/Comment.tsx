@@ -20,7 +20,9 @@ const Comment = ({ placeholder, className }: RatingCommentProps) => {
       aria-label={label}
       placeholder={label}
       value={comment}
-      onChange={(event) => { setComment(event.target.value) }}
+      onChange={(event) => {
+        setComment(event.target.value)
+      }}
     />
   )
 }

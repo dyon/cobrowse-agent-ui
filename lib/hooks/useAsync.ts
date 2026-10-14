@@ -36,7 +36,7 @@ export function useAsync<Args extends unknown[], Result>(fn: (...args: Args) => 
         if (isCurrent()) setIsPending(false)
       }
     },
-    [fn]
+    [fn],
   )
 
   const reset = useCallback(() => {
@@ -55,8 +55,8 @@ export function useAsync<Args extends unknown[], Result>(fn: (...args: Args) => 
       isSuccess,
       isError: error !== null,
       executeAsync,
-      reset
+      reset,
     }),
-    [data, error, isPending, isSuccess, executeAsync, reset]
+    [data, error, isPending, isSuccess, executeAsync, reset],
   )
 }

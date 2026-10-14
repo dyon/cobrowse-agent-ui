@@ -9,7 +9,7 @@ import {
   type ClipboardEvent,
   type ChangeEvent,
   type KeyboardEvent,
-  type FocusEvent
+  type FocusEvent,
 } from 'react'
 import clsx from 'clsx'
 import { useTranslation } from '@/i18n'
@@ -51,7 +51,7 @@ const focusNextInput = (refsArr: Array<HTMLInputElement | null>, elem: HTMLInput
 const moveFocusForArrowKey = (
   refsArr: Array<HTMLInputElement | null>,
   elem: HTMLInputElement,
-  key: typeof KEY_ARROW_LEFT | typeof KEY_ARROW_RIGHT
+  key: typeof KEY_ARROW_LEFT | typeof KEY_ARROW_RIGHT,
 ) => {
   const isRTL = getComputedStyle(elem).direction === 'rtl'
   const movesToPrevious = key === KEY_ARROW_LEFT ? !isRTL : isRTL
@@ -63,7 +63,16 @@ const moveFocusForArrowKey = (
   }
 }
 
-const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRender = false, onCode, label, children }: CodeEntryProps) => {
+const CodeEntry = ({
+  ref,
+  className,
+  inputClassName,
+  labelClassName,
+  focusOnRender = false,
+  onCode,
+  label,
+  children,
+}: CodeEntryProps) => {
   const { t } = useTranslation()
   const [validating, setValidating] = useState(false)
   const [code, setCode] = useState(EMTPY_STATE)
@@ -71,14 +80,18 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   const focusTargetRef = useRef<number | null>(null)
   const advancedOnChange = useRef(false)
 
-  useImperativeHandle(ref, () => ({
-    clear () {
-      setCode(EMTPY_STATE)
-    },
-    focus (index) {
-      refs.current[index]?.focus()
-    }
-  }), [])
+  useImperativeHandle(
+    ref,
+    () => ({
+      clear() {
+        setCode(EMTPY_STATE)
+      },
+      focus(index) {
+        refs.current[index]?.focus()
+      },
+    }),
+    [],
+  )
 
   const getCode = useCallback(() => code.join('').substring(0, CODE_LENGTH), [code])
 
@@ -89,24 +102,27 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
     refs.current[targetIndex]?.focus()
   }, [code])
 
-  const tryComplete = useCallback(async (codeValue: string) => {
-    setValidating(true)
+  const tryComplete = useCallback(
+    async (codeValue: string) => {
+      setValidating(true)
 
-    try {
-      const isValid = await onCode?.(codeValue)
+      try {
+        const isValid = await onCode?.(codeValue)
 
-      if (isValid) {
-        setCode(EMTPY_STATE)
-        focusTargetRef.current = 0
-      } else {
+        if (isValid) {
+          setCode(EMTPY_STATE)
+          focusTargetRef.current = 0
+        } else {
+          focusTargetRef.current = CODE_LENGTH - 1
+        }
+      } catch {
         focusTargetRef.current = CODE_LENGTH - 1
+      } finally {
+        setValidating(false)
       }
-    } catch {
-      focusTargetRef.current = CODE_LENGTH - 1
-    } finally {
-      setValidating(false)
-    }
-  }, [onCode])
+    },
+    [onCode],
+  )
 
   // Restore focus once validation completes and the inputs are re-enabled
   useEffect(() => {
@@ -131,7 +147,7 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   }, [getCode, tryComplete])
 
   const setDigit = useCallback((digit: number, value: string) => {
-    if (digit > (CODE_LENGTH - 1)) {
+    if (digit > CODE_LENGTH - 1) {
       return
     }
 
@@ -144,52 +160,62 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
     })
   }, [])
 
-  const handlePaste = useCallback((event: ClipboardEvent<HTMLInputElement>) => {
-    if (validating) {
-      return
-    }
+  const handlePaste = useCallback(
+    (event: ClipboardEvent<HTMLInputElement>) => {
+      if (validating) {
+        return
+      }
 
-    const { clipboardData } = event
-    const pastedData = clipboardData.getData('Text').trim()
+      const { clipboardData } = event
+      const pastedData = clipboardData.getData('Text').trim()
 
-    // Exit early if the pasted data contains anything other than just digits
-    if (!/^[0-9]+$/.test(pastedData)) {
+      // Exit early if the pasted data contains anything other than just digits
+      if (!/^[0-9]+$/.test(pastedData)) {
+        event.preventDefault()
+
+        return
+      }
+
+      const digits = pastedData.split('')
+      // Start pasting from the first digit if the clipboard holds a full code,
+      // otherwise just paste from the currently selected input onwards
+      let digit =
+        pastedData.length === CODE_LENGTH
+          ? 0
+          : parseInt(event.currentTarget.getAttribute('data-digit') ?? '0', 10)
+
+      digits.forEach((value) => {
+        setDigit(digit, value)
+
+        digit += 1
+      })
+
+      refs.current[Math.min(digit, CODE_LENGTH - 1)]?.focus()
+
       event.preventDefault()
+    },
+    [setDigit, validating],
+  )
 
-      return
-    }
+  const handleOnChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const {
+        target,
+        target: { value },
+      } = event
+      const digit = parseInt(target.getAttribute('data-digit') ?? '0', 10)
+      const digits = value.match(/[0-9]/g) ?? []
+      const nextValue = digits[digits.length - 1] ?? ''
 
-    const digits = pastedData.split('')
-    // Start pasting from the first digit if the clipboard holds a full code,
-    // otherwise just paste from the currently selected input onwards
-    let digit = pastedData.length === CODE_LENGTH
-      ? 0
-      : parseInt(event.currentTarget.getAttribute('data-digit') ?? '0', 10)
+      setDigit(digit, nextValue)
 
-    digits.forEach((value) => {
-      setDigit(digit, value)
-
-      digit += 1
-    })
-
-    refs.current[Math.min(digit, CODE_LENGTH - 1)]?.focus()
-
-    event.preventDefault()
-  }, [setDigit, validating])
-
-  const handleOnChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const { target, target: { value } } = event
-    const digit = parseInt(target.getAttribute('data-digit') ?? '0', 10)
-    const digits = value.match(/[0-9]/g) ?? []
-    const nextValue = digits[digits.length - 1] ?? ''
-
-    setDigit(digit, nextValue)
-
-    if (nextValue !== '') {
-      focusNextInput(refs.current, target)
-      advancedOnChange.current = true
-    }
-  }, [setDigit])
+      if (nextValue !== '') {
+        focusNextInput(refs.current, target)
+        advancedOnChange.current = true
+      }
+    },
+    [setDigit],
+  )
 
   const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
     event.currentTarget.select()
@@ -230,14 +256,9 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
   const invalid = !validating && getCode().length === CODE_LENGTH
 
   return (
-    <fieldset
-      className={clsx(styles.root, className)}
-    >
+    <fieldset className={clsx(styles.root, className)}>
       {label !== false && (
-        <legend
-          className={clsx(styles.legend, labelClassName)}
-          onClick={focusFirstEmptyInput}
-        >
+        <legend className={clsx(styles.legend, labelClassName)} onClick={focusFirstEmptyInput}>
           <span>{label ?? t('Support code')}</span>
         </legend>
       )}
@@ -255,7 +276,9 @@ const CodeEntry = ({ ref, className, inputClassName, labelClassName, focusOnRend
             onPaste={handlePaste}
             value={value}
             data-digit={index}
-            ref={(el) => { refs.current[index] = el }}
+            ref={(el) => {
+              refs.current[index] = el
+            }}
             autoFocus={focusOnRender && index === 0}
             aria-label={t('Digit {{digit}}', { digit: index + 1 })}
           />

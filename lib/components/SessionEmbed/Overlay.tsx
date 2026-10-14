@@ -8,9 +8,7 @@ const Overlay = ({ state, children }: SessionEmbedOverlayProps) => {
   const session = useSession(remoteContext)
   const sessionState = session?.state
 
-  const shouldRender = state === 'loading'
-    ? sessionState === undefined
-    : sessionState === state
+  const shouldRender = state === 'loading' ? sessionState === undefined : sessionState === state
 
   if (!shouldRender) {
     return null
@@ -18,9 +16,7 @@ const Overlay = ({ state, children }: SessionEmbedOverlayProps) => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.content}>
-        {children}
-      </div>
+      <div className={styles.content}>{children}</div>
     </div>
   )
 }

@@ -11,7 +11,7 @@ import useConnectDevice, {
   ERROR_SESSION_ERROR,
   ERROR_SESSION_NOT_FOUND,
   MAX_PUSH_ATTEMPTS,
-  PUSH_RETRY_MS
+  PUSH_RETRY_MS,
 } from './useConnectDevice'
 import styles from './ConnectDevice.module.css'
 
@@ -22,7 +22,7 @@ export {
   ERROR_SESSION_ERROR,
   ERROR_SESSION_NOT_FOUND,
   MAX_PUSH_ATTEMPTS,
-  PUSH_RETRY_MS
+  PUSH_RETRY_MS,
 }
 
 export interface ConnectDeviceStatusMessageProps {
@@ -37,19 +37,23 @@ export interface ConnectDeviceLoaderProps {
 }
 
 export interface ConnectDeviceProps {
-  deviceId: string,
+  deviceId: string
   onConnectAttempt?: (attempt: number) => void
   onConnected?: (session: Session) => void
   onCancelled?: (session: Session) => void
   onEnded?: (session: Session) => void
   onError?: (error: unknown) => void
-  maxPushAttempts?: number,
+  maxPushAttempts?: number
   pushRetryMs?: number
   className?: string
   children: (attempt: number, cancel: () => void) => ReactNode
 }
 
-const StatusMessage = ({ attempt, maxPushAttempts = MAX_PUSH_ATTEMPTS, className }: ConnectDeviceStatusMessageProps) => {
+const StatusMessage = ({
+  attempt,
+  maxPushAttempts = MAX_PUSH_ATTEMPTS,
+  className,
+}: ConnectDeviceStatusMessageProps) => {
   const { t } = useTranslation()
   let message = t('Contacting device')
 
@@ -61,11 +65,7 @@ const StatusMessage = ({ attempt, maxPushAttempts = MAX_PUSH_ATTEMPTS, className
     message = t('Retrying connection')
   }
 
-  return (
-    <div className={clsx(styles.statusMessage, className)}>
-      {message}
-    </div>
-  )
+  return <div className={clsx(styles.statusMessage, className)}>{message}</div>
 }
 
 const Loader = ({ attempt, maxPushAttempts = MAX_PUSH_ATTEMPTS }: ConnectDeviceLoaderProps) => {
@@ -92,7 +92,7 @@ const ConnectDeviceBase = ({
   maxPushAttempts = MAX_PUSH_ATTEMPTS,
   pushRetryMs = PUSH_RETRY_MS,
   className,
-  children
+  children,
 }: ConnectDeviceProps) => {
   const [attempt, setAttempt] = useState(1)
 
@@ -109,24 +109,20 @@ const ConnectDeviceBase = ({
     onEnded,
     onError,
     maxPushAttempts,
-    pushRetryMs
+    pushRetryMs,
   })
 
   const handleCancel = () => {
     void cancel()
   }
 
-  return (
-    <div className={clsx(styles.root, className)}>
-      {children(attempt, handleCancel)}
-    </div>
-  )
+  return <div className={clsx(styles.root, className)}>{children(attempt, handleCancel)}</div>
 }
 
 const ConnectDevice: ConnectDeviceComponent = Object.assign(ConnectDeviceBase, {
   StatusMessage,
   Loader,
-  CancelButton
+  CancelButton,
 })
 
 export default ConnectDevice

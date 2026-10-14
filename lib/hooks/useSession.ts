@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { RemoteContext, type Session } from 'cobrowse-agent-sdk'
 
-const isRemoteContext = (source: RemoteContext | Session): source is RemoteContext => (
+const isRemoteContext = (source: RemoteContext | Session): source is RemoteContext =>
   source instanceof RemoteContext
-)
 
-const hasSessionProperty = (target: Session, property: PropertyKey): property is keyof Session => property in target
+const hasSessionProperty = (target: Session, property: PropertyKey): property is keyof Session =>
+  property in target
 
 const createReactiveSession = (session: Session | null) => {
   if (!session) {
@@ -13,7 +13,8 @@ const createReactiveSession = (session: Session | null) => {
   }
 
   return new Proxy(session, {
-    get: (target, property) => hasSessionProperty(target, property) ? target[property] : undefined
+    get: (target, property) =>
+      hasSessionProperty(target, property) ? target[property] : undefined,
   })
 }
 

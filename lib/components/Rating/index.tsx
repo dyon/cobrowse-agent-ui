@@ -37,7 +37,12 @@ type RatingComponent = ((props: RatingProps) => ReactNode) & {
   ThankYou: (props: RatingThankYouProps) => ReactNode
 }
 
-const RatingBase = ({ onComplete, feedbackThreshold = DEFAULT_FEEDBACK_THRESHOLD, className, children }: RatingProps) => {
+const RatingBase = ({
+  onComplete,
+  feedbackThreshold = DEFAULT_FEEDBACK_THRESHOLD,
+  className,
+  children,
+}: RatingProps) => {
   const [rating, setRatingState] = useState<RatingValue | null>(null)
   const [feedback, setFeedback] = useState<string[]>([])
   const [comment, setComment] = useState('')
@@ -45,7 +50,9 @@ const RatingBase = ({ onComplete, feedbackThreshold = DEFAULT_FEEDBACK_THRESHOLD
 
   const finish = (rating: RatingValue | null, feedback: string[], comment: string) => {
     setComplete(true)
-    onComplete(rating === null ? undefined : { rating, feedback: [...feedback, comment].filter(Boolean) })
+    onComplete(
+      rating === null ? undefined : { rating, feedback: [...feedback, comment].filter(Boolean) },
+    )
   }
 
   const setRating = (score: RatingValue, commit = true) => {
@@ -63,7 +70,9 @@ const RatingBase = ({ onComplete, feedbackThreshold = DEFAULT_FEEDBACK_THRESHOLD
   }
 
   const toggleReason = (value: string) => {
-    setFeedback((prev) => prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value])
+    setFeedback((prev) =>
+      prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value],
+    )
   }
 
   const submit = () => {
@@ -79,14 +88,12 @@ const RatingBase = ({ onComplete, feedbackThreshold = DEFAULT_FEEDBACK_THRESHOLD
     setRating,
     toggleReason,
     setComment,
-    submit
+    submit,
   }
 
   return (
     <RatingContext.Provider value={value}>
-      <div className={clsx(styles.root, className)}>
-        {children}
-      </div>
+      <div className={clsx(styles.root, className)}>{children}</div>
     </RatingContext.Provider>
   )
 }
@@ -97,7 +104,7 @@ const Rating: RatingComponent = Object.assign(RatingBase, {
   Reason,
   Comment,
   Submit,
-  ThankYou
+  ThankYou,
 })
 
 export default Rating

@@ -2,8 +2,8 @@
 
 ## Development
 
-This project uses [Vite+](https://viteplus.dev/guide/) (`vp`) as its toolchain for the dev server, builds, linting and type
-checking.
+This project uses [Vite+](https://viteplus.dev/guide/) (`vp`) as its toolchain for the dev server, builds, formatting,
+linting and type checking.
 
 ### Setup
 
@@ -44,7 +44,7 @@ If Node.js or npm behave unexpectedly, run `vp env doctor`.
 | ------------- | ------------------------------------------------------------ |
 | `vp dev`      | Start the dev server with the kitchen sink app from `src/`   |
 | `vp build`    | Build the library into `dist/`                               |
-| `vp check`    | Lint and type check (formatting is disabled for now)         |
+| `vp check`    | Format, lint and type check                                  |
 | `vp run lint` | Lint (warnings fail), plus `i18next-cli` lint. CI runs this. |
 | `vp run i18n` | Extract translation keys into the locale files               |
 
@@ -68,16 +68,16 @@ achieve this from an app that's also using `i18next` to handle localization.
 ```js
 // i18n.js
 
-import i18n from 'i18next';
-import { bindI18n } from 'cobrowse-agent-ui';
+import i18n from 'i18next'
+import { bindI18n } from 'cobrowse-agent-ui'
 
 i18n.init({
   // ...
-});
+})
 
-bindI18n(i18n);
+bindI18n(i18n)
 
-export default i18n;
+export default i18n
 ```
 
 ### Adding new locales

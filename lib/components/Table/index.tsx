@@ -1,18 +1,17 @@
-import { createContext, useContext, useMemo, type ComponentPropsWithoutRef, type ReactNode } from 'react'
+import {
+  createContext,
+  useContext,
+  useMemo,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+} from 'react'
 import clsx from 'clsx'
 import { ASCENDING, nextSort, type SortDirection, type TableSort } from './sort'
 import styles from './Table.module.css'
 import Button from '../Button'
 
-export {
-  ASCENDING,
-  DESCENDING
-} from './sort'
-export type {
-  SortDirection,
-  TableSort,
-  TableSortValues
-} from './sort'
+export { ASCENDING, DESCENDING } from './sort'
+export type { SortDirection, TableSort, TableSortValues } from './sort'
 
 interface TableContextValue {
   sortBy: (key: string, firstDirection?: SortDirection) => void
@@ -22,7 +21,7 @@ interface TableContextValue {
 const TableContext = createContext<TableContextValue | null>(null)
 const ColumnContext = createContext<string | undefined>(undefined)
 
-function useTableContext (part: string): TableContextValue {
+function useTableContext(part: string): TableContextValue {
   const table = useContext(TableContext)
 
   if (!table) throw new Error(`<Table.${part}> must be rendered inside <Table>`)
@@ -73,10 +72,15 @@ export interface TableEmptyProps extends ComponentPropsWithoutRef<'td'> {
 }
 
 const TableBase = ({ sort, onSortChange, className, ...props }: TableProps) => {
-  const context = useMemo<TableContextValue>(() => ({
-    sortBy: (key, firstDirection) => { onSortChange?.(nextSort(sort, key, firstDirection)) },
-    directionOf: (key) => key !== undefined && sort?.key === key ? sort.direction : undefined
-  }), [sort, onSortChange])
+  const context = useMemo<TableContextValue>(
+    () => ({
+      sortBy: (key, firstDirection) => {
+        onSortChange?.(nextSort(sort, key, firstDirection))
+      },
+      directionOf: (key) => (key !== undefined && sort?.key === key ? sort.direction : undefined),
+    }),
+    [sort, onSortChange],
+  )
 
   return (
     <TableContext.Provider value={context}>
@@ -137,14 +141,17 @@ const SortButton = ({
   const headCellColumn = useContext(ColumnContext)
   const key = column ?? headCellColumn
 
-  if (key === undefined) throw new Error('<Table.SortButton> needs a column, either its own or a HeadCell\'s')
+  if (key === undefined)
+    throw new Error("<Table.SortButton> needs a column, either its own or a HeadCell's")
 
   const direction = directionOf(key)
 
   return (
     <Button
       className={clsx(styles.sortButton, className)}
-      onClick={() => { sortBy(key, firstDirection) }}
+      onClick={() => {
+        sortBy(key, firstDirection)
+      }}
       {...props}
     >
       {typeof children === 'function'
@@ -177,7 +184,7 @@ const Table: TableComponent = Object.assign(TableBase, {
   HeadCell,
   Cell,
   SortButton,
-  Empty
+  Empty,
 })
 
 export { Table }

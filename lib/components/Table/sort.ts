@@ -15,7 +15,11 @@ export type TableSortValues<TRow> = Record<string, (row: TRow) => unknown>
  * What clicking a column asks for: the column already sorted by flips
  * direction, and any other takes `firstDirection`.
  */
-export function nextSort (sort: TableSort | undefined, key: string, firstDirection: SortDirection = ASCENDING): TableSort {
+export function nextSort(
+  sort: TableSort | undefined,
+  key: string,
+  firstDirection: SortDirection = ASCENDING,
+): TableSort {
   if (sort?.key !== key) return { key, direction: firstDirection }
 
   return { key, direction: sort.direction === ASCENDING ? DESCENDING : ASCENDING }

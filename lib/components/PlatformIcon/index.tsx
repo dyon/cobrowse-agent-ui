@@ -20,7 +20,7 @@ const PLATFORM_ICONS: Record<Exclude<DeviceInfo['platform'], 'web'>, IconCompone
   ios: IconApple,
   macos: IconApple,
   android: IconAndroid,
-  windows: IconWindows
+  windows: IconWindows,
 }
 
 const BROWSER_ICONS: Partial<Record<string, IconComponent>> = {
@@ -30,13 +30,11 @@ const BROWSER_ICONS: Partial<Record<string, IconComponent>> = {
   opera: IconBrowserOpera,
   safari: IconBrowserSafari,
   'samsung-internet': IconBrowserSamsungInternet,
-  globe: IconGlobe
+  globe: IconGlobe,
 }
 
-const getBrowserKey = (userAgent: string) => parser(userAgent).browser.name
-  ?.toLowerCase()
-  .replace(/ /g, '-')
-  .replace('mobile-', '')
+const getBrowserKey = (userAgent: string) =>
+  parser(userAgent).browser.name?.toLowerCase().replace(/ /g, '-').replace('mobile-', '')
 
 export interface PlatformIconProps extends SVGProps<SVGSVGElement> {
   device: DeviceInfo
@@ -44,18 +42,12 @@ export interface PlatformIconProps extends SVGProps<SVGSVGElement> {
 }
 
 const PlatformIcon = ({ device, className, ...props }: PlatformIconProps) => {
-  const Icon = (
-    device.platform === 'web'
+  const Icon =
+    (device.platform === 'web'
       ? BROWSER_ICONS[getBrowserKey(device.device) ?? 'globe']
-      : PLATFORM_ICONS[device.platform]
-  ) ?? IconGlobe
+      : PLATFORM_ICONS[device.platform]) ?? IconGlobe
 
-  return (
-    <Icon
-      {...props}
-      className={clsx(styles.root, className)}
-    />
-  )
+  return <Icon {...props} className={clsx(styles.root, className)} />
 }
 
 export default PlatformIcon
